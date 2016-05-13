@@ -1,4 +1,4 @@
-Template.body.helpers({
+Template.main.helpers({
 	isLoading: function(){
 		return Session.get('isLoading');
 	},
