@@ -8,7 +8,4 @@ accounts-ui
 less
 email
 http
-meteorhacks:npm
-
-
-npm-container
+#meteorhacks:npm
