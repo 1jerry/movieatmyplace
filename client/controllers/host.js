@@ -33,7 +33,7 @@ Template.host.events({
 			return false;
 
 		var editHash = Events.findOne({_id: Session.get('eId')}).editHash;
-		var editLink = 'movieat.mp/?eId=' + Session.get('eId') + '&edit=' + editHash;
+		//var editLink = 'movieat.mp/?eId=' + Session.get('eId') + '&edit=' + editHash;
 
 		Meteor.call('sendEmailEditLink', e.currentTarget.value, Session.get('eId'));
 	}
