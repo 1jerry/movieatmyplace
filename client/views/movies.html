@@ -3,7 +3,10 @@
 		{{#each movies}}
 			<div class="movie" id="{{_id}}" originalOrder="{{originalOrder}}">
 
-				<div class="title tooltip-trailer">{{title}} <span class="small-text">{{#if year}}({{year}}){{/if}}</span></div>
+				<div class="title tooltip-trailer">{{title}} <span class="small-text">
+                    {{#if year}}({{year}}){{/if}}
+                    {{#if rating}}<span title="Rotten Tomatoes rating">[{{rating}}]</span> {{/if}}
+                </span></div>
 
 				{{#if isEditMode}}
 					<div class="delete">delete</div>

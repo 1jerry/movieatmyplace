@@ -1,57 +1,53 @@
 
 searchRotten = function(term) {
-	var API = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?callback=?";
+	var API = "https://yts.ag/api/v2/list_movies.jsonp";
 	var parameters = {
-		q: term,
-		page_limit: 5,
-		page: 1,
-		apikey: 'h7r36fsnbz7bzb87pz86tyh5',
-	}
+		query_term: term,
+		limit: 5,
+        with_rt_ratings: true
+	};
 	$.getJSON(API, parameters, function(data){
-		Session.set('movieSearch', data.movies);
+		Session.set('movieSearch', data.data.movies);
 	})
 	.fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
 			console.log( "Request Failed: " + err );
 	});
-}
+};
 
 getRottenMovieDetails = function(movieId, rottenId) {
-	var API = "http://api.rottentomatoes.com/api/public/v1.0/movies/" + rottenId + ".json?callback=?";
+	var API = "https://yts.ag/api/v2/movie_details.json?with_images=true&with_cast=true&movie_id=" + rottenId;
 	var parameters = {
-		apikey: 'h7r36fsnbz7bzb87pz86tyh5',
-	}
+	};
 	$.getJSON(API, parameters, function(data){
-		addRottenDetailsToMovie(movieId, data);
+		addRottenDetailsToMovie(movieId, data.data.movie);
 	})
 	.fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
 			console.log( "Request Failed: " + err );
 	});
-}
+};
 
 addRottenDetailsToMovie = function(movieId, details) {
 
 	// Format information
 	rottenData = {
 		rottenId:       isset(details['id'])            ? details['id']                        : null,
-		imdbId:         isset(details['alternate_ids']) ? details['alternate_ids']['imdb']     : null,
+		imdbId:         isset(details['imdb_code'])     ? details['imdb_code']     : null,
 		title:          isset(details['title'])         ? details['title']                     : null,
 		year:           isset(details['year'])          ? details['year']                      : null,
 		studio:         isset(details['studio'])        ? details['studio']                    : null,
-		thumbnail:      isset(details['posters'])       ? details['posters']['thumbnail']      : null,
-		poster:      	isset(details['posters'])       ? details['posters']['original']       : null,
-		audienceRating: isset(details['ratings'])       ? details['ratings']['audience_score'] : null,
-		criticRating:   isset(details['ratings'])       ? details['ratings']['critics_score']  : null,
+		thumbnail:      isset(details['small_cover_image'])       ? details['small_cover_image']     : null,
+		poster:      	isset(details['background_image'])       ? details['background_image']      : null,
+		rating:         isset(details['rating'])       ? details['rating']  : null,
 		duration:       isset(details['runtime'])       ? details['runtime']                   : null,
 		synopsis:       isset(details['synopsis'])      ? details['synopsis']                  : null,
+        date_added: new Date()
 	};
 
-	rottenData['poster'] = rottenData['poster'].replace('_tmb.jpg', '_ori.jpg');
-
-	if (isset(details['abridged_cast'])) {
+	if (isset(details['cast'])) {
 		var actors = [];
-		$.each(details.abridged_cast, function(actor) {
+		$.each(details.cast, function(actor) {
 			actors.push(actor.name);
 		});
 		rottenData['cast'] = actors.join(', ');
@@ -81,4 +77,4 @@ addRottenDetailsToMovie = function(movieId, details) {
 	var data = {};
 	data['movies.' + movieIndex] = rottenData;
 	Events.update({_id: Session.get('eId')}, {$set: data});
-}
+};

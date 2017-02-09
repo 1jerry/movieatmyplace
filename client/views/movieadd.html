@@ -12,7 +12,9 @@
 						<p>{{Error}}</p>
 					{{else}}
 							<input type="radio" name="autocomplete" id="{{id}}" value="{{id}}">
-							<label for="{{id}}">{{title}} ({{year}})</label>
+							<label for="{{id}}">{{title}} ({{year}})
+                                {{#if rating}}<span title="Rotten Tomatoes rating">[{{rating}}]</span> {{/if}}
+                            </label>
 					{{/if}}
 				{{/each}}
 			{{/if}}
