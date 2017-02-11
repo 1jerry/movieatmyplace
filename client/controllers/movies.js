@@ -56,6 +56,14 @@ Template.movies.events({
 	'click .movie .title': function(e, tmpl) {
 
 		// Get movie data
+		if (e.target.tagName == "IMG") {
+			turnOn = e.target.previousElementSibling.style.display == "none";
+			$('.cover').hide();
+			if(turnOn) e.target.previousElementSibling.style.display = "block";
+			e.preventDefault()
+
+		} else {
+
 		var movieId = $(e.target).parent().attr('id');
 		var movies = Events.findOne({}, {fields: {'movies': 1}}).movies;
 		var movieData;
@@ -67,8 +75,9 @@ Template.movies.events({
 		var searchTerms = ['"' + movieData.title + '"', 'trailer', movieData.year];
 		var searchString = encodeURIComponent(searchTerms);
 		Session.set('youtubeTerms', searchString);
+		}
 	}
-	
+
 });
 
 findMovieIndexInCollectionById = function(movieId) {
@@ -78,7 +87,7 @@ findMovieIndexInCollectionById = function(movieId) {
 	for (var i = 0; i < movies.length; i++)
 		if (movies[i]['_id'] == movieId)
 			return i;
-}
+};
 
 Template.movies.rendered = function() {
 	this.firstNode._uihooks = {
@@ -94,9 +103,9 @@ Template.movies.rendered = function() {
 		},
 		insertElement: function (node, next) {
 			$(node).insertBefore(next).hide().slideDown();
-		},
+		}
 	};
-}
+};
 
 changeMovieVote = function(e, vote) {
 
@@ -125,7 +134,7 @@ changeMovieVote = function(e, vote) {
 	data['movies.' + itemIndex + '.votes.' + userId] = userVote;
 	data['movies.' + itemIndex + '.votesSum'] = votesSum;
 	Events.update({_id: Session.get('eId')}, {$set: data});
-}
+};
 
 displayVoteResult = function(movieId, vote) {
 	$('#' + movieId).addClass(vote);

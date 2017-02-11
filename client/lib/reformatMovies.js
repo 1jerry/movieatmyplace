@@ -20,7 +20,7 @@ reformatMovies = function(obj, reorder) {
             reformat.push(arr[prop]['value']);
 
     var sorted = arr.sort(function(a, b) { return b.key - a.key; });
-    Session.set("topTrailer", sorted[0].value.poster);
+    Session.set("topTrailer", sorted[0].value.background || sorted[0].value.poster);
 
     return reformat; // returns array
 }

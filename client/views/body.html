@@ -41,15 +41,17 @@
 					<sup class="super-script">You can vote <strong>up</strong> or <strong>down</strong> for <strong>each</strong> movie</sup>
 				{{/if}}
 
+				{{#if friendsAddMovies}}
+					{{> movieadd}}
+				{{/if}}
 				{{#if anyMovies}}
 					{{> movies}}
 				{{else}}
 					<p class="no-movies">No movies entered yet</p>
 				{{/if}}
-				{{#if friendsAddMovies}}
-					{{> movieadd}}
-				{{/if}}
-                <div class="version">version 0.1</div>
+                <div class="version" title="2/10/2017: v0.2 - Added images and cast list (click on image)">
+                    version 0.2
+                </div>
 			</div>
 
 			<!-- Sharing link section -->

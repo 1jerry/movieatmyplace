@@ -38,18 +38,17 @@ addRottenDetailsToMovie = function(movieId, details) {
 		year:           isset(details['year'])          ? details['year']                      : null,
 		studio:         isset(details['studio'])        ? details['studio']                    : null,
 		thumbnail:      isset(details['small_cover_image'])       ? details['small_cover_image']     : null,
-		poster:      	isset(details['background_image'])       ? details['background_image']      : null,
+		poster:      isset(details['large_cover_image'])       ? details['large_cover_image']     : null,
+		background:      	isset(details['background_image'])       ? details['background_image']      : null,
 		rating:         isset(details['rating'])       ? details['rating']  : null,
 		duration:       isset(details['runtime'])       ? details['runtime']                   : null,
-		synopsis:       isset(details['synopsis'])      ? details['synopsis']                  : null,
+		synopsis:       isset(details['synopsis'])      ? details['synopsis']                  : details.description_intro,
         date_added: new Date()
 	};
 
 	if (isset(details['cast'])) {
 		var actors = [];
-		$.each(details.cast, function(actor) {
-			actors.push(actor.name);
-		});
+        details.cast.forEach(function(actor) {actors.push(actor.name)})
 		rottenData['cast'] = actors.join(', ');
 	}
 
