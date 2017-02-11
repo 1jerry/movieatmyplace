@@ -56,10 +56,11 @@ Template.movies.events({
 	'click .movie .title': function(e, tmpl) {
 
 		// Get movie data
+		gle = e // global event for debugging
 		if (e.target.tagName == "IMG") {
 			turnOn = e.target.previousElementSibling.style.display == "none";
-			$('.cover').hide();
-			if(turnOn) e.target.previousElementSibling.style.display = "block";
+			$('.toggle').hide();
+			if(turnOn) $('.toggle',e.target.parentElement).show();
 			e.preventDefault()
 
 		} else {
