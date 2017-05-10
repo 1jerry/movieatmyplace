@@ -15,8 +15,7 @@ http://movieatmyplace.com
 
 ToDo (Jerry)
 -------
-1. don't allow non-found movies
-1. option for "on the way"
+1. option for "on the way" or "watching"
  
 
 License

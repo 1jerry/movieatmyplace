@@ -22,9 +22,11 @@ Template.movieadd.events({
 	// Add film form submit
 	'submit form, click .movieadd input[type=radio]': function(e, tmpl) {
 		e.preventDefault();
+		//console.log( $('input[type=radio]:checked').length, $('input[type=radio]').length);
 
 		var formData = getFormData('form[name="movieadd"]');
-		if (formData.title.length <= 1)
+		var selected = $('input[type=radio]:checked').length
+		if (formData.title.length <= 1 || !(selected || Session.get('editMode')))
 			return false;
 		formData['youtube'] = '';
 		formData['votes'] = {};
@@ -87,11 +89,17 @@ Template.movieadd.events({
 		}
 	},
 
+	'focus input[name=title]': function(e) {
+		$('.notes').show();
+		console.log('show')
+	},
 	// Clear autocomplete on blur
 	'blur input[name=title]': function(e, tmpl) {
 		// After item has been added, clear autocomplete
 		Meteor.setTimeout(function(){
 			clearAutocomplete();
+			$('.notes').hide();
+			console.log('hide')
 		}, 500);
 	}
 });
