@@ -8,10 +8,16 @@ I was annoyed at how a few of my hosted movie nights ended up being a "choose a 
 
 Also this was a good chance to get to know Meteor.js.
 
-See it live
+Original (now expired)
 -----------
 
 http://movieatmyplace.com
+
+ToDo (Jerry)
+-------
+1. don't allow non-found movies
+1. option for "on the way"
+ 
 
 License
 -------
