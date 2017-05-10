@@ -22,13 +22,14 @@
 		justify-content: space-between;
 	  	line-height: 1em;
 
+		img {
+		  cursor: pointer;
+		  //float: right;
+		}
 		.title {
 			width: 100%;
-		  	font-weight: bold;
-		  	img {
-			  cursor: pointer;
-			}
-		}
+			font-weight: bold;
+		  }
 
 		.total-votes-text:before {
 			padding-left: 0.3em;
@@ -90,12 +91,14 @@
 		}
 
 		.delete {
-			float: right;
-			height: 1.5em;
-			width:  3.2em;
+			float: left;
+		  	font-size: 1.8em;
+		  	visibility: visible;
+			width:  1.2em;
 			padding: 0;
 			text-align: center;
 			color: red;
+		  	cursor: pointer;
 		}
 		
 		&.like {
@@ -118,7 +121,7 @@
 	line-height: 1em;
 	font-weight: normal;
 	position: absolute;
-	right: 3.5em;
+	right: 5.5em;
 	color: white;
 	background-color: rgba(170,170,170, 0.95);
 	-webkit-border-radius: 5px;
@@ -136,8 +139,16 @@
 }
 .tooltip-trailer:hover:before {
 	.tooltip;
-	content: "trailer";
+	content: "Click for trailer";
 }
+.movie img:hover:before {
+	.tooltip;
+	content: "See Movie Details";
+}
+.tooltip-trailer:hover {
+  background: yellow;
+}
+  //.delete; visibility: visible;
 
 .cover {
   position: fixed;

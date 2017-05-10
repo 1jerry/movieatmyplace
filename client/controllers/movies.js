@@ -48,34 +48,39 @@ Template.movies.events({
 	
 	'click .delete': function(e, tmpl) {
 		var item = {};
-		var movieId = $(e.target).parent().attr('id');
+		var movieId = $(e.target).parent().parent().attr('id');
 		item['movies'] = {_id: movieId};
 		Events.update({_id: Session.get('eId')}, {$pull: item});
 	},
 
-	'click .movie .title': function(e, tmpl) {
+	'click .movie > img': function(e, tmpl) {
 
 		// Get movie data
-		gle = e // global event for debugging
+		gle = e; // global event for debugging
+		turnOn = $('.toggle', e.target.parentNode).prop('style')['display'] == "none";
+		$('.toggle').hide();
+		Session.set('youtubeTerms', null);  // turn off trailer window
+		if (turnOn) $('.toggle', e.target.parentNode).show();
+		e.preventDefault()
+
+	},
+	'click .movie .title': function(e, tmpl) {
+
 		if (e.target.tagName == "IMG") {
-			turnOn = e.target.previousElementSibling.style.display == "none";
 			$('.toggle').hide();
-			if(turnOn) $('.toggle',e.target.parentElement).show();
-			e.preventDefault()
-
 		} else {
+			var movieId = $(e.target).parent().attr('id');
+			var movies = Events.findOne({}, {fields: {'movies': 1}}).movies;
+			var movieData;
+			$('.toggle').hide();  // close any movie details boxes
+			for (var i=0; i<movies.length; i++)
+				if (movies[i]['_id'] == movieId)
+					movieData = movies[i];
 
-		var movieId = $(e.target).parent().attr('id');
-		var movies = Events.findOne({}, {fields: {'movies': 1}}).movies;
-		var movieData;
-		for (var i=0; i<movies.length; i++)
-			if (movies[i]['_id'] == movieId)
-				movieData = movies[i];
-
-		// Open player
-		var searchTerms = ['"' + movieData.title + '"', 'trailer', movieData.year];
-		var searchString = encodeURIComponent(searchTerms);
-		Session.set('youtubeTerms', searchString);
+			// Open player
+			var searchTerms = ['"' + movieData.title + '"', 'trailer', movieData.year];
+			var searchString = encodeURIComponent(searchTerms);
+			Session.set('youtubeTerms', searchString);
 		}
 	}
 
@@ -144,4 +149,4 @@ displayVoteResult = function(movieId, vote) {
 		$('#' + movieId).removeClass(vote);
 		$('#' + movieId + " .vote").removeClass('animating');
 	}, 2000);
-}
+};

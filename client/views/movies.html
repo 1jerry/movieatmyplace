@@ -15,17 +15,17 @@
                         </div>
                         <img src="{{poster}}" alt=""/>
                     </div>
-                    <img src="{{thumbnail}}" alt=""/>
-                    {{title}}
+                    {{#if isEditMode}}
+                        <span class="delete">X</span>
+                    {{/if}}
+                    <span>{{title}}
                     <span class="small-text">
                     {{#if year}}({{year}}){{/if}}
                     {{#if rating}}<span title="Rotten Tomatoes rating">[{{rating}}]</span> {{/if}}
-                    </span>
+                    </span></span>
                 </div>
+                <img src="{{thumbnail}}" alt="" title="See Movie Details"/>
 
-				{{#if isEditMode}}
-					<div class="delete">DEL</div>
-				{{/if}}
                 <div class="votes">
                     <div class="vote {{vote}} tooltip-my-vote">&lt;</div>
                     <div class="votesSum tooltip-total-votes">{{votesSum}}</div>
