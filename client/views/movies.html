@@ -27,8 +27,12 @@
                 <img src="{{thumbnail}}" alt="" title="See Movie Details"/>
 
                 <div class="votes">
-                    <div class="vote {{vote}} tooltip-my-vote">&lt;</div>
-                    <div class="votesSum tooltip-total-votes">{{votesSum}}</div>
+                    {{#if watching}}
+                        <span class="watching">Watching</span>
+                    {{else}}
+                        <div class="vote {{vote}} tooltip-my-vote">&lt;</div>
+                        <div class="votesSum tooltip-total-votes">{{votesSum}}</div>
+                    {{/if}}
                 </div>
 			</div>
 		{{/each}}

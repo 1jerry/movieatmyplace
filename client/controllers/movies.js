@@ -28,6 +28,12 @@ Template.movies.helpers({
 
 Template.movies.events({
 
+	'click .votesSum, click .watching': function(e, tmpl) {
+		if (Session.get("editMode")) {
+			// only if I have editing permission
+			toggleWatching(e);
+		}
+	},
 	'click .vote': function(e, tmpl) {
 
 		var button = $(e.currentTarget);
@@ -69,7 +75,8 @@ Template.movies.events({
 		if (e.target.tagName == "IMG") {
 			$('.toggle').hide();
 		} else {
-			var movieId = $(e.target).parent().attr('id');
+			var movieId = $(e.currentTarget).parent().attr('id');
+			if (!movieId) return
 			var movies = Events.findOne({}, {fields: {'movies': 1}}).movies;
 			var movieData;
 			$('.toggle').hide();  // close any movie details boxes
@@ -139,6 +146,18 @@ changeMovieVote = function(e, vote) {
 	var data = {};
 	data['movies.' + itemIndex + '.votes.' + userId] = userVote;
 	data['movies.' + itemIndex + '.votesSum'] = votesSum;
+	Events.update({_id: Session.get('eId')}, {$set: data});
+}
+toggleWatching = function(e) {
+
+	// Get basic info
+	var itemIndex = $(e.target).parent().parent().attr('originalOrder');
+	var Event = Events.findOne({_id: Session.get('eId')});
+	var watching = !Event.movies[itemIndex].watching
+
+	// Save data
+	var data = {};
+	data['movies.' + itemIndex + '.watching'] = watching;
 	Events.update({_id: Session.get('eId')}, {$set: data});
 };
 
